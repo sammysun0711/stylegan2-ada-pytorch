@@ -27,7 +27,7 @@ wget https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metfaces.
 pip install -U pip
 pip install torch torchvision onnx openvino openvino-dev
 ```
-3. Run `convedrt_model.ipynb` to convert pytorch to onnx model, then inference with OpenVINO
+3. Run `convert_model.ipynb` to convert pytorch to onnx model, then inference with OpenVINO
 
 
 ## Abstract:
