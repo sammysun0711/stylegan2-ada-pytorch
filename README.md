@@ -19,7 +19,7 @@ Beside, the notebook `convert_model.ipynb` also contains interactive demo show t
 1. Download pre-trained model
 ```
 mkdir pretrained
-wget -P https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metfaces.pkl 
+wget https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metfaces.pkl -P pretrained
 ```
 
 2. Install python package
