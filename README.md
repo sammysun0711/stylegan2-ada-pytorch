@@ -8,13 +8,27 @@ https://arxiv.org/abs/2006.06676<br>
 
 ## Fork notes
 
-This fork makes it possible to export the StyleGAN2-ADA model to ONNX and TVM.
+This fork makes it possible to export the StyleGAN2-ADA model to ONNX, then run inference with OpenVINO.
 
-To run, see the code in `convert_model.ipynb`, and load your pre-trained `pickle` file.  This converts the model to the new format, and also to ONNX and TVM.
+To run, see the code in `convert_model.ipynb`, and load your pre-trained `pickle` file.  This converts the model to the ONNX model for inferenece with OpenVINO.
 
-[See this thread](https://discuss.tvm.apache.org/t/unsupported-ops-in-stylegan2/11708) for details of why the TVM conversion is required to be done in this way. 
+Original pytorch model contained some ops implemented CUDA kernel function, which block pytorch to onnx conversion. So we revert those ops to pure PyTorch ops, so that we can convert pytorch model to ONNX model successfully. 
 
-This repo is not designed for training, as I have carelessly removed optimized CUDA implementations of some ops, and instead revert to using pure PyTorch.
+Beside, the notebook `convert_model.ipynb` also contains interactive demo show that inference results of converted ONNX model on CPU matched the output of pytorch model on Nvdia GPU with same input latent variable 'z'.
+
+1. Download pre-trained model
+```
+mkdir pretrained
+wget -P https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metfaces.pkl 
+```
+
+2. Install python package
+```
+pip install -U pip
+pip install torch torchvision onnx openvino openvino-dev
+```
+3. Run `convedrt_model.ipynb` to convert pytorch to onnx model, then inference with OpenVINO
+
 
 ## Abstract:
 *Training generative adversarial networks (GAN) using too little data typically leads to discriminator overfitting, causing training to diverge. We propose an adaptive discriminator augmentation mechanism that significantly stabilizes training in limited data regimes. The approach does not require changes to loss functions or network architectures, and is applicable both when training from scratch and when fine-tuning an existing GAN on another dataset. We demonstrate, on several datasets, that good results are now possible using only a few thousand training images, often matching StyleGAN2 results with an order of magnitude fewer images. We expect this to open up new application domains for GANs. We also find that the widely used CIFAR-10 is, in fact, a limited data benchmark, and improve the record FID from 5.59 to 2.42.*
